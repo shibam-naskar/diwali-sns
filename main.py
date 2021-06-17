@@ -5,11 +5,6 @@ from youtubesearchpython import VideosSearch,Video
 
 
 
-ydl = youtube_dl.YoutubeDL({'outtmpl': '%(id)s%(ext)s'})
-# Add all the available extractors
-ydl.add_default_info_extractors()
-
-
 app = Flask(__name__)
 
 
