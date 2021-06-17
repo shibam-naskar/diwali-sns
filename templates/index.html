@@ -37,8 +37,8 @@
     margin-bottom: 40px;
   }
   .container {
-    width: 90%;
-    max-width: 500px;
+    width: 50%;
+    max-width: 300px;
     margin: 0 auto;
     justify-content: center;
   }
@@ -92,11 +92,28 @@ recognition.addEventListener('result', (e)=>{
 
   p.innerText = text;
   if(e.results[0].isFinal){
-    if (text.includes('how are you')) {
-      p.classList.add('replay');
-      p.innerText = 'i am fine what about you?';
-      texts.appendChild(p)
-      responsiveVoice.speak("oh! i am fine");
+    if (text.includes('covid-19 status')) {
+      const text1 = text.replace(' covid-19 status','');
+
+      fetch("https://corona-virus-world-and-india-data.p.rapidapi.com/api_india", {
+        "method": "GET",
+        "headers": {
+          "x-rapidapi-key": "740d2467acmshef1446e20d79861p16ed12jsn18c35912f27c",
+          "x-rapidapi-host": "corona-virus-world-and-india-data.p.rapidapi.com"
+        }
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(data => {
+        responsiveVoice.speak(`in ${text1} active cases are ${data['state_wise'][text1]['active']} confirmed ${data['state_wise'][text1]['confirmed']} and ${data['state_wise'][text1]['deaths']} total deaths`);
+      })
+      .catch(err => {
+        console.error(err);
+        p.classList.add('replay');
+        texts.appendChild(p)
+        responsiveVoice.speak(`oh! sorry i cant find any state named ${text1}`);
+      });
     }
     if (text.includes("Diwali")) {
       const text2 = text.toLocaleLowerCase();
@@ -120,13 +137,47 @@ recognition.addEventListener('result', (e)=>{
       const text1 = text2.replace('play','');
       console.log(text1);
       responsiveVoice.speak(`playing ${text1}`)
-      fetch(`https://diwali-bot.herokuapp.com/youtube-data/${text1}`)
+      fetch(`http://127.0.0.1:5000/youtube-data/${text1}`)
           .then(res => res.json())
           .then(opt => window.open(opt[0]['link']));
       
       p.classList.add('replay');
       p.innerText = json[0]['message'];
       texts.appendChild(p)
+    }
+
+    if (text.includes('weather')) {
+      try {
+        getLocation();
+      } catch (error) {
+        console.log(error);
+        responsiveVoice.speak('ooh! sorry something went wrong');
+      }
+      getLocation();
+      function getLocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+          console.log('not supported');
+        }
+      }
+
+      function showPosition(position) {
+        fetch(`http://api.openweathermap.org/data/2.5/find?lat=${position.coords.latitude}&lon=${position.coords.longitude}&cnt=1&appid=6fed6f20c4335444cc1258a52b955765`)
+        .then(res => res.json())
+        .then(data => {
+          p.classList.add('replay');
+          p.innerText = `${data['list'][0]['main']['feels_like']} degree F`;
+          texts.appendChild(p)
+          // console.log(data);
+          // console.log(data['list'][0]['weather'][0]['description']);
+          responsiveVoice.speak(`oh! i can see There is ${data['list'][0]['weather'][0]['description']} outside it feels like ${data['list'][0]['main']['feels_like']} digree farenhite and wind speed ${data['list'][0]['wind']['speed']} kilometer per hour`);
+        });
+        console.log(position.coords.longitude);
+      }
+      texts.appendChild(p)
+      console.log('opening youtube')
+      window.open('https://www.google.com/search?q='+text1)
     }
 
 
