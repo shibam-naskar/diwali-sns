@@ -121,7 +121,7 @@ recognition.addEventListener('result', (e)=>{
       console.log(text1);
       fetch(`https://api.pgamerx.com/v3/ai/response?message=encodeURIComponent('${text1}')&type=stable`, {
               method: 'get',
-              headers: { 'x-api-key': 'jYLk9BFC0WEO' },
+              headers: { 'x-api-key': 'API-KEY' },
           })
           .then(res => res.json())
           .then(json => responsiveVoice.speak(json[0]['message']));
@@ -137,7 +137,7 @@ recognition.addEventListener('result', (e)=>{
       const text1 = text2.replace('play','');
       console.log(text1);
       responsiveVoice.speak(`playing ${text1}`)
-      fetch(`https://diwali-bot.herokuapp.com/youtube-data/${text1}`)
+      fetch(`API-HERE/youtube-data/${text1}`)
           .then(res => res.json())
           .then(opt => window.open(opt[0]['link']));
       
@@ -163,7 +163,7 @@ recognition.addEventListener('result', (e)=>{
       }
 
       function showPosition(position) {
-        fetch(`https://api.openweathermap.org/data/2.5/find?lat=${position.coords.latitude}&lon=${position.coords.longitude}&cnt=1&appid=6fed6f20c4335444cc1258a52b955765`)
+        fetch(`https://api.openweathermap.org/data/2.5/find?lat=${position.coords.latitude}&lon=${position.coords.longitude}&cnt=1&appid=API-KEY`)
         .then(res => res.json())
         .then(data => {
           p.classList.add('replay');
