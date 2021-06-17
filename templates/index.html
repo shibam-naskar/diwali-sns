@@ -137,7 +137,7 @@ recognition.addEventListener('result', (e)=>{
       const text1 = text2.replace('play','');
       console.log(text1);
       responsiveVoice.speak(`playing ${text1}`)
-      fetch(`http://127.0.0.1:5000/youtube-data/${text1}`)
+      fetch(`https://diwali-bot.herokuapp.com/youtube-data/${text1}`)
           .then(res => res.json())
           .then(opt => window.open(opt[0]['link']));
       
