@@ -163,7 +163,7 @@ recognition.addEventListener('result', (e)=>{
       }
 
       function showPosition(position) {
-        fetch(`http://api.openweathermap.org/data/2.5/find?lat=${position.coords.latitude}&lon=${position.coords.longitude}&cnt=1&appid=6fed6f20c4335444cc1258a52b955765`)
+        fetch(`https://api.openweathermap.org/data/2.5/find?lat=${position.coords.latitude}&lon=${position.coords.longitude}&cnt=1&appid=6fed6f20c4335444cc1258a52b955765`)
         .then(res => res.json())
         .then(data => {
           p.classList.add('replay');
