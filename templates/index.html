@@ -121,7 +121,7 @@ recognition.addEventListener('result', (e)=>{
       console.log(text1);
       fetch(`https://api.pgamerx.com/v3/ai/response?message=encodeURIComponent('${text1}')&type=stable`, {
               method: 'get',
-              headers: { 'x-api-key': 'jYLk9BFC0WEO' },
+              headers: { 'x-api-key': 'API-KEY' },
           })
           .then(res => res.json())
           .then(json => responsiveVoice.speak(json[0]['message']));
